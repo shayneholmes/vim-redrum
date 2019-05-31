@@ -1,40 +1,13 @@
-" Copyright 2019 Shayne Holmes
-"
-" MIT License
-"
-" Permission is hereby granted, free of charge, to any person obtaining a copy
-" of this software and associated documentation files (the "Software"), to
-" deal in the Software without restriction, including without limitation the
-" rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-" sell copies of the Software, and to permit persons to whom the Software is
-" furnished to do so, subject to the following conditions:
-"
-" The above copyright notice and this permission notice shall be included in
-" all copies or substantial portions of the Software.
-"
-" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-" IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-" FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-" AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-" LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-" FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-" IN THE SOFTWARE.
-
-if &compatible || !has('conceal') || exists('g:redrum_loaded')
-  finish
-endif
-let g:redrum_loaded = 1
-
 " Define defaults
 let s:redrum_message = 'All work and no play makes Jack a dull boy. '
 
-function! s:getSetting(name)
+function! s:getSetting(name) abort
   return get(g:, a:name,
         \ get(b:, a:name,
         \ get(s:, a:name)))
 endfunction
 
-function! s:createSyntaxRules()
+function! s:createSyntaxRules() abort
   let str = s:getSetting('redrum_message')
   let len = len(str)
   let i = len - 1
@@ -71,7 +44,7 @@ function! s:createSyntaxRules()
 endfunction
 
 " from code at https://github.com/junegunn/goyo.vim/issues/156
-function! s:backup(groups)
+function! s:backup(groups) abort
   let backup=''
   silent! execute 'redir => backup | ' .
                 \ join(map(copy(a:groups), '"hi " . v:val'), ' | ') .
@@ -79,7 +52,7 @@ function! s:backup(groups)
   return backup
 endfunction
 
-function! s:restore(highlighting_backup)
+function! s:restore(highlighting_backup) abort
   let hls = map(split(a:highlighting_backup, '\v\n(\S)@='),
               \ {_, v -> substitute(v, '\v\C(<xxx>|\s|\n)+', ' ', 'g')})
   for hl in hls
@@ -101,7 +74,7 @@ function! s:restore(highlighting_backup)
   endfor
 endfunction
 
-function! s:saveSettings()
+function! s:saveSettings() abort
   let b:redrum_restore={
         \ 'syntax': &l:syntax,
         \ 'conceallevel': &l:conceallevel,
@@ -110,7 +83,7 @@ function! s:saveSettings()
         \}
 endfunction
 
-function! s:restoreSettings()
+function! s:restoreSettings() abort
   let &l:syntax=b:redrum_restore['syntax']
   let &l:conceallevel=b:redrum_restore['conceallevel']
   let &l:concealcursor=b:redrum_restore['concealcursor']
@@ -118,7 +91,7 @@ function! s:restoreSettings()
   unlet b:redrum_restore
 endfunction
 
-function! s:activate()
+function! s:activate() abort
   let b:redrum_active = 1
   call s:saveSettings()
   setlocal syntax=text
@@ -128,13 +101,13 @@ function! s:activate()
   call s:createSyntaxRules()
 endfunction
 
-function! s:deactivate()
+function! s:deactivate() abort
   unlet b:redrum_active
   syn clear
   call s:restoreSettings()
 endfunction
 
-function! s:Redrum(bang)
+function! redrum#execute(bang) abort
   if a:bang
     if get(b:, 'redrum_active', 0)
       call s:deactivate()
@@ -147,5 +120,3 @@ function! s:Redrum(bang)
     endif
   endif
 endfunction
-
-command! -bang Redrum call <SID>Redrum(<bang>0)
