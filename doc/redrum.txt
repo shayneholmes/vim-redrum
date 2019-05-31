@@ -57,8 +57,22 @@ g:redrum_message                                              *g:redrum_message*
   Default: `'All work and no play makes Jack a dull boy.'`
 
   This is the message that will repeat over and over again, in the shape of
-  your text.
+  your text. Some alternatives: >
 
+    " Lorem ipsum
+    let g:redrum_message = 'Lorem ipsum dolor sit amet, consectetuer adipiscing
+      \ elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
+      \ natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+      \ mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
+      \ sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
+      \ aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
+      \ imperdiet a, venenatis vitae, justo. '
+
+    " Metasyntatic variable soup
+    let g:redrum_message = 'foo bar quuz corge quux foo quuz garply bar qux
+      \ waldo foo quuz grault bar fred thud quuz bar thud garply plugh bar
+      \ garply xyzzy corge garply waldo quux quuz '
+<
 ==============================================================================
 Inspirations
 
