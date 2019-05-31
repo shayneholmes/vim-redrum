@@ -1,5 +1,5 @@
 " Define defaults
-let s:redrum_message = 'All work and no play makes Jack a dull boy. '
+let s:redrum_message = 'All work and no play makes Jack a dull boy.'
 
 function! s:getSetting(name) abort
   return get(g:, a:name,
@@ -10,6 +10,10 @@ endfunction
 function! s:createSyntaxRules() abort
   let str = s:getSetting('redrum_message')
   let len = len(str)
+  if str[len-1] !=# ' '
+    let str = str . ' '
+    let len += 1
+  endif
   let i = len - 1
   while i >= 0
     let ch = str[i]

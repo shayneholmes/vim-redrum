@@ -38,7 +38,7 @@ instead of `g:`.
 ### `g:redrum_message`
 
   - Type: `String`
-  - Default: `'All work and no play makes Jack a dull boy. '`
+  - Default: `'All work and no play makes Jack a dull boy.'`
 
   This is the message that will repeat over and over again, in the shape of
   your text.
