@@ -1,5 +1,7 @@
 " Define defaults
 let s:redrum_message = 'All work and no play makes Jack a dull boy.'
+let s:redrum_match_pattern = '"."'
+let s:redrum_skip_pattern = '"^\s*\|\s\{4,}"'
 
 function! s:getSetting(name) abort
   return get(g:, a:name,
@@ -13,6 +15,8 @@ endfunction
 " :syn-priority), so we define the rules in reverse order here.
 function! s:createSyntaxRules() abort
   let str = s:getSetting('redrum_message')
+  let match_pattern = s:getSetting('redrum_match_pattern')
+  let skip_pattern = s:getSetting('redrum_skip_pattern')
   let len = len(str)
   if str[len-1] !=# ' '
     let str = str . ' '
@@ -40,14 +44,15 @@ function! s:createSyntaxRules() abort
     " Characters matching this will be concealed with a character from the
     " redrum_message.
     exec 'syntax match ch'. i
-          \ '"."'
+          \ match_pattern
           \ 'nextgroup=skip'. next .',ch'. next
           \ 'conceal cchar='. ch
           \ 'skipnl skipwhite'
           \ contained
     " Characters matching this will display as usual, and the next character
     " will be the next non-blank character of the message.
-    exec 'syntax match skip'. i '"^\s*\|\s\{4,}" '
+    exec 'syntax match skip'. i
+          \ skip_pattern
           \ 'nextgroup=skip'. i .',ch'. nonblankch
           \ 'skipnl skipwhite'
           \ contained

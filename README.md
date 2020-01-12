@@ -61,6 +61,39 @@ instead of `g:`.
       \ garply xyzzy corge garply waldo quux quuz'
   ```
 
+### `g:redrum_match_pattern`
+
+  - Type: `String` (see `:syn-pattern`)
+  - Default: `'"."'`
+
+  A match of this pattern in your buffer will be replaced by a character in
+  the redrum_message.
+
+  Some alternatives:
+  ```
+    " Only replace non-whitespace characters
+    let g:redrum_match_pattern = '"\w"'
+  ```
+
+### g:redrum_skip_pattern
+
+  Type: `String` (see `:syn-pattern`)
+  Default: `'"^\s*\|\s\{4,}"'`
+
+  A match of this pattern in your buffer will display as usual, and the next
+  match of match_pattern will be replaced with next non-blank character of the
+  message.
+
+  If something in your document isn't matched by this pattern or
+  match_pattern, the message will reset at the next match_pattern.
+
+  Some alternatives:
+
+  ```
+    " Leave all whitespace alone
+    let g:redrum_skip_pattern = '"\s"'
+  ```
+
 ## Inspirations
 
  * vim-veil: https://github.com/swordguin/vim-veil/
