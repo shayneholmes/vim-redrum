@@ -1,5 +1,5 @@
 " Define defaults
-let s:redrum_message = 'All work and no play makes Jack a dull boy.'
+let s:redrum_message = 'All work and no play makes Jack a dull boy. '
 let s:redrum_match_pattern = '"."'
 let s:redrum_skip_pattern = '"^\s*\|\s\{4,}"'
 
@@ -18,10 +18,6 @@ function! s:createSyntaxRules() abort
   let match_pattern = s:getSetting('redrum_match_pattern')
   let skip_pattern = s:getSetting('redrum_skip_pattern')
   let len = len(str)
-  if str[len-1] !=# ' '
-    let str = str . ' '
-    let len += 1
-  endif
   let i = len - 1
   while i >= 0
     let ch = str[i]
