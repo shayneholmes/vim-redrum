@@ -7,6 +7,10 @@ function! s:getSetting(name) abort
         \ get(s:, a:name)))
 endfunction
 
+" Create syntax rules.
+"
+" Note that the _last_ defined rule takes precedence (see :help
+" :syn-priority), so we define the rules in reverse order here.
 function! s:createSyntaxRules() abort
   let str = s:getSetting('redrum_message')
   let len = len(str)
@@ -33,14 +37,18 @@ function! s:createSyntaxRules() abort
     else
       let contained = 'contained'
     end
+    " Characters matching this will be concealed with a character from the
+    " redrum_message.
     exec 'syntax match ch'. i
           \ '"."'
-          \ 'nextgroup=pre'. next .',ch'. next
+          \ 'nextgroup=skip'. next .',ch'. next
           \ 'conceal cchar='. ch
           \ 'skipnl skipwhite'
           \ contained
-    exec 'syntax match pre'. i '"^\s*\|\s\{4,}" '
-          \ 'nextgroup=pre'. i .',ch'. nonblankch
+    " Characters matching this will display as usual, and the next character
+    " will be the next non-blank character of the message.
+    exec 'syntax match skip'. i '"^\s*\|\s\{4,}" '
+          \ 'nextgroup=skip'. i .',ch'. nonblankch
           \ 'skipnl skipwhite'
           \ contained
     let i -= 1
